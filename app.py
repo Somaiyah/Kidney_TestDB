@@ -9,9 +9,8 @@ db_path = "/mount/src/kidney_testdb/kidney_matching.db"  # استخدم المس
 st.write(f"Database Path: {db_path}")
 st.write(f"Can Write to Database: {os.access(db_path, os.W_OK)}")
 
-# إنشاء الاتصال بقاعدة البيانات
+# إنشاء الاتصال بقاعدة البيانات باستخدام SQLite3
 engine = create_engine(f"sqlite:///{db_path}")
-
 
 # Schema
 with engine.connect() as connection:
@@ -149,6 +148,7 @@ elif menu == "Add Recipient":
                     "epts": epts, "hla_a": hla_a, "hla_b": hla_b, "hla_cw": hla_cw,
                     "hla_dr": hla_dr, "unacceptable_antigen": unacceptable_antigen
                 })
+                connection.commit()  # Add commit here to ensure data is saved
             st.success("Recipient added successfully!")
         except Exception as e:
             st.error(f"Error adding recipient: {e}")
@@ -216,6 +216,7 @@ elif menu == "Add Donor":
                     "dm": dm, "htn": htn, "creat": creat, "hcv": hcv, "dcd": dcd, "kdpi": kdpi,
                     "blood_type": blood_type, "hla_a": hla_a, "hla_b": hla_b, "hla_cw": hla_cw, "hla_dr": hla_dr
                 })
+                connection.commit()  # Add commit here to ensure data is saved
             st.success("Donor added successfully!")
         except Exception as e:
             st.error(f"Error adding donor: {e}")
@@ -275,6 +276,7 @@ elif menu == "Compatibility Check":
     # Display the results
     results_df = pd.DataFrame(results)
     st.write(results_df)
+
 # View Results
 elif menu == "View Results":
     st.title("Final Matching Results")
@@ -337,6 +339,7 @@ elif menu == "View Results":
 
     # Display results
     st.write(recipients_sorted)
+
 # Manage Data
 elif menu == "Manage Data":
     st.title("Manage Data")
@@ -374,4 +377,5 @@ elif menu == "Manage Data":
                 st.success(f"Donor with ID {delete_id} deleted successfully.")
             except Exception as e:
                 st.error(f"Error deleting donor: {e}")
+
 
