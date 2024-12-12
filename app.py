@@ -6,9 +6,6 @@ import os
 
 # تحديد المسار المطلق لقاعدة البيانات
 db_path = "/mount/src/kidney_testdb/kidney_matching.db"  # استخدم المسار المطلق مباشرة
-st.write(f"Database Path: {db_path}")
-st.write(f"Can Write to Database: {os.access(db_path, os.W_OK)}")
-
 # إنشاء الاتصال بقاعدة البيانات باستخدام SQLite3
 engine = create_engine(f"sqlite:///{db_path}")
 
