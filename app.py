@@ -132,32 +132,35 @@ elif menu == "Add Recipient":
 
     # Submit button
     if st.button("Submit"):
-        try:
-            with engine.connect() as connection:
-                connection.execute(text("""
-                INSERT INTO recipients (
-                    name, mrn, age, bmi, gender, blood_type, pra, dol, dod, hd_pd,
-                    urgent, years_dialysis, epts, hla_a, hla_b, hla_cw, hla_dr, unacceptable_antigen
-                ) VALUES (
-                    :name, :mrn, :age, :bmi, :gender, :blood_type, :pra, :dol, :dod, :hd_pd,
-                    :urgent, :years_dialysis, :epts, :hla_a, :hla_b, :hla_cw, :hla_dr, :unacceptable_antigen
-                )
-                """), {
-                    "name": name, "mrn": mrn, "age": age, "bmi": bmi, "gender": gender,
-                    "blood_type": blood_type, "pra": pra, "dol": dol, "dod": dod,
-                    "hd_pd": hd_pd, "urgent": urgent, "years_dialysis": years_dialysis,
-                    "epts": epts, "hla_a": hla_a, "hla_b": hla_b, "hla_cw": hla_cw,
-                    "hla_dr": hla_dr, "unacceptable_antigen": unacceptable_antigen
-                })
-            st.success("Recipient added successfully!")
- # استرجاع وعرض البيانات من قاعدة البيانات
+    try:
+        # إضافة البيانات إلى قاعدة البيانات
+        with engine.connect() as connection:
+            connection.execute(text("""
+            INSERT INTO recipients (
+                name, mrn, age, bmi, gender, blood_type, pra, dol, dod, hd_pd,
+                urgent, years_dialysis, epts, hla_a, hla_b, hla_cw, hla_dr, unacceptable_antigen
+            ) VALUES (
+                :name, :mrn, :age, :bmi, :gender, :blood_type, :pra, :dol, :dod, :hd_pd,
+                :urgent, :years_dialysis, :epts, :hla_a, :hla_b, :hla_cw, :hla_dr, :unacceptable_antigen
+            )
+            """), {
+                "name": name, "mrn": mrn, "age": age, "bmi": bmi, "gender": gender,
+                "blood_type": blood_type, "pra": pra, "dol": dol, "dod": dod,
+                "hd_pd": hd_pd, "urgent": urgent, "years_dialysis": years_dialysis,
+                "epts": epts, "hla_a": hla_a, "hla_b": hla_b, "hla_cw": hla_cw,
+                "hla_dr": hla_dr, "unacceptable_antigen": unacceptable_antigen
+            })
+        st.success("Recipient added successfully!")
+
+        # استرجاع وعرض البيانات من قاعدة البيانات
         with engine.connect() as connection:
             recipients = pd.read_sql("SELECT * FROM recipients", connection)
             st.write("Current Recipients Data:")
             st.dataframe(recipients)
-        
-        except Exception as e:
-            st.error(f"Error adding recipient: {e}")
+
+    except Exception as e:
+        st.error(f"Error adding recipient: {e}")
+
 
 # Add Donor
 elif menu == "Add Donor":
