@@ -150,6 +150,12 @@ elif menu == "Add Recipient":
                     "hla_dr": hla_dr, "unacceptable_antigen": unacceptable_antigen
                 })
             st.success("Recipient added successfully!")
+ # استرجاع وعرض البيانات من قاعدة البيانات
+        with engine.connect() as connection:
+            recipients = pd.read_sql("SELECT * FROM recipients", connection)
+            st.write("Current Recipients Data:")
+            st.dataframe(recipients)
+        
         except Exception as e:
             st.error(f"Error adding recipient: {e}")
 
