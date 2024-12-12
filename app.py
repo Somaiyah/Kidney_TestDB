@@ -354,7 +354,9 @@ elif menu == "Manage Data":
         if st.button("Delete Recipient"):
             try:
                 with engine.connect() as connection:
+                    # تنفيذ الاستعلام لحذف المتلقي
                     connection.execute(text("DELETE FROM recipients WHERE id = :id"), {"id": delete_id})
+                    connection.commit()  # إضافة commit لتثبيت التغييرات
                 st.success(f"Recipient with ID {delete_id} deleted successfully.")
             except Exception as e:
                 st.error(f"Error deleting recipient: {e}")
@@ -370,9 +372,9 @@ elif menu == "Manage Data":
         if st.button("Delete Donor"):
             try:
                 with engine.connect() as connection:
+                    # تنفيذ الاستعلام لحذف المتبرع
                     connection.execute(text("DELETE FROM donors WHERE id = :id"), {"id": delete_id})
+                    connection.commit()  # إضافة commit لتثبيت التغييرات
                 st.success(f"Donor with ID {delete_id} deleted successfully.")
             except Exception as e:
                 st.error(f"Error deleting donor: {e}")
-
-
