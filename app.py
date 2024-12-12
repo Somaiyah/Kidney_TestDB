@@ -2,8 +2,16 @@ import streamlit as st
 from datetime import datetime
 import pandas as pd
 from sqlalchemy import create_engine, text
+import os
 
-engine = create_engine("sqlite:////mount/src/kidney_testdb/kidney_matching.db")
+# تحديد المسار المطلق لقاعدة البيانات
+db_path = "/mount/src/kidney_testdb/kidney_matching.db"  # استخدم المسار المطلق مباشرة
+st.write(f"Database Path: {db_path}")
+st.write(f"Can Write to Database: {os.access(db_path, os.W_OK)}")
+
+# إنشاء الاتصال بقاعدة البيانات
+engine = create_engine(f"sqlite:///{db_path}")
+
 
 # Schema
 with engine.connect() as connection:
