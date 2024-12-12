@@ -2,15 +2,8 @@ import streamlit as st
 from datetime import datetime
 import pandas as pd
 from sqlalchemy import create_engine, text
-import os
 
-#DataBase Path seleted
-db_path = os.path.join(os.getcwd(), 'kidney_matching.db')
-st.write(f"Database Path: {db_path}")
-st.write(f"Can Write to Database: {os.access(db_path, os.W_OK)}")
-
-#Connection
-engine = create_engine(f"sqlite:///{db_path}")
+engine = create_engine("sqlite:////mount/src/kidney_testdb/kidney_matching.db")
 
 # Schema
 with engine.connect() as connection:
